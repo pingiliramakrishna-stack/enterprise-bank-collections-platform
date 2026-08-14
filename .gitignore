@@ -1,0 +1,25 @@
+/.metadata/
+
+# Maven
+**/target/
+**/dependency-reduced-pom.xml
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

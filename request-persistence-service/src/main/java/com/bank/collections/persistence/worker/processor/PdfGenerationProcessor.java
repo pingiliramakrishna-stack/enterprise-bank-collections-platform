@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.bank.collections.persistence.entity.RequestControlEntity;
+import com.bank.collections.persistence.worker.service.LambdaInvoker;
 
 @Component
 @Profile("worker")
@@ -14,19 +15,23 @@ public class PdfGenerationProcessor implements RequestProcessor {
     private static final Logger LOGGER =
             LoggerFactory.getLogger(PdfGenerationProcessor.class);
 
+    private final LambdaInvoker lambdaInvoker;
+
+    public PdfGenerationProcessor(LambdaInvoker lambdaInvoker) {
+        this.lambdaInvoker = lambdaInvoker;
+    }
+
     @Override
     public void process(RequestControlEntity request) throws Exception {
 
-        LOGGER.info("Invoking Lambda for Workflow Id : {}",
+        LOGGER.info(
+                "Starting PDF generation for Workflow Id : {}",
                 request.getWorkflowId());
 
-        // TODO:
-        // AWS Lambda SDK invocation will be added here.
+        lambdaInvoker.invoke(request);
 
-        Thread.sleep(2000);
-
-        LOGGER.info("Lambda execution completed successfully.");
-
+        LOGGER.info(
+                "PDF generation Lambda completed for Workflow Id : {}",
+                request.getWorkflowId());
     }
-
 }
